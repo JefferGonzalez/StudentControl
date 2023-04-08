@@ -1,6 +1,7 @@
 package com.student.control;
 
 import com.student.control.repositories.UserRepository;
+import com.student.control.views.Login;
 import com.student.control.views.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +20,10 @@ public class Application {
     }
 
     @Bean
-    public void applicationRunner() {
+    /*public void applicationRunner() {
         new Main(userRepository).setVisible(true);
+    }*/
+    public  void  prueba(){
+        new Login(userRepository).setVisible(true);
     }
 }
