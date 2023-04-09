@@ -1,12 +1,14 @@
 package com.student.control;
 
-import com.student.control.repositories.UserRepository;
-import com.student.control.views.Login;
-import com.student.control.views.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+
+import com.student.control.models.User;
+import com.student.control.repositories.UserRepository;
+import com.student.control.views.Login;
+import com.student.control.views.Main;
 
 @SpringBootApplication
 public class Application {
@@ -20,10 +22,19 @@ public class Application {
     }
 
     @Bean
-    /*public void applicationRunner() {
+    public void applicationRunner() {
+
+        if (userRepository.count() == 0) {
+            User user = new User();
+
+            user.setFirstName("Usuario");
+            user.setLastName("Administrador");
+            user.setEmail("user@mail.com");
+            user.setPassword("123456789");
+
+            userRepository.save(user);
+        }
         new Main(userRepository).setVisible(true);
-    }*/
-    public  void  prueba(){
-        new Login(userRepository).setVisible(true);
+//        new Login(userRepository).setVisible(true);
     }
 }

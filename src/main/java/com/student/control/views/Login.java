@@ -19,6 +19,7 @@ public class Login extends javax.swing.JFrame {
 
     public Login(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -42,13 +43,13 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
 
         jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         fondo.setBackground(new java.awt.Color(0, 102, 255));
         fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,8 +69,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Usuario");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
-        TxtPassword.setEditable(false);
-        TxtPassword.setBackground(new java.awt.Color(255, 255, 255));
+        TxtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel3.add(TxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 200, -1));
 
         jLabel3.setText("Contraseña");
@@ -83,19 +83,14 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel3.add(BtnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 200, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/icons8-user-80.png"))); // NOI18N
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 90, 80));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/student/control/images/icons8-user-80.png"))); // NOI18N
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 90, 80));
 
         fondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 270, 400));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\SEBASTIAN L\\Documents\\Universidad\\Proyecto\\StudentControl\\src\\main\\java\\com\\images\\Group.png")); // NOI18N
         fondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 350, 190, 200));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/Group1.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/student/control/images/Group1.png"))); // NOI18N
         fondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, -10, 130, 130));
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/images/Vector.png"))); // NOI18N
-        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -50, 320, 200));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,7 +119,9 @@ public class Login extends javax.swing.JFrame {
         user.setPassword(TxtPassword.getText());
 
         if (userCon.Acceder(user)) {
+            this.setVisible(false);
             Main accede = new Main(userRepository);
+
             accede.setVisible(true);
             JOptionPane.showMessageDialog(null, "Ingreso exitoso");
         } else {
@@ -175,7 +172,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }
