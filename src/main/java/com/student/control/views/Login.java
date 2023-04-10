@@ -32,7 +32,6 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel6 = new javax.swing.JLabel();
         fondo = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         TxtUsuario = new javax.swing.JTextField();
@@ -41,10 +40,9 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         BtnIngresar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-
-        jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -83,13 +81,17 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel3.add(BtnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 200, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/student/control/images/icons8-user-80.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-user-80.png"))); // NOI18N
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 90, 80));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Vector.png"))); // NOI18N
+        jLabel6.setText(" ");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 340, -1));
 
         fondo.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 270, 400));
-        fondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 350, 190, 200));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/student/control/images/Group1.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Group1.png"))); // NOI18N
         fondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, -10, 130, 130));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -169,9 +171,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }
