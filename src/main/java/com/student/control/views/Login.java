@@ -7,6 +7,7 @@ package com.student.control.views;
 import com.student.control.controllers.UserController;
 import com.student.control.models.User;
 import com.student.control.repositories.UserRepository;
+import java.util.Optional;
 import javax.swing.JOptionPane;
 
 /**
@@ -57,11 +58,6 @@ public class Login extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         TxtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtUsuarioActionPerformed(evt);
-            }
-        });
         jPanel3.add(TxtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 200, -1));
 
         jLabel2.setText("Usuario");
@@ -115,25 +111,27 @@ public class Login extends javax.swing.JFrame {
 
     private void BtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIngresarActionPerformed
         UserController userCon = new UserController(userRepository);
-        User user = new User();
+        User u = new User();
 
-        user.setEmail(TxtUsuario.getText());
-        user.setPassword(TxtPassword.getText());
+        u.setEmail(TxtUsuario.getText());
+        u.setPassword(TxtPassword.getText());
 
-        if (userCon.Acceder(user)) {
-            this.setVisible(false);
-            Main accede = new Main(userRepository);
+        Optional<User> user = userCon.Acceder(u);
 
-            accede.setVisible(true);
-            JOptionPane.showMessageDialog(null, "Ingreso exitoso");
+        if (user.isPresent()) {
+            String passwordBD = user.get().getPassword();
+            String userPassword = u.getPassword();
+            if (passwordBD.equals(userPassword)) {
+                this.setVisible(false);
+                Main accede = new Main(userRepository, user.get().getFirstName());
+
+                accede.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales erroneas");
         }
-    }//GEN-LAST:event_BtnIngresarActionPerformed
 
-    private void TxtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtUsuarioActionPerformed
+    }//GEN-LAST:event_BtnIngresarActionPerformed
 
     /**
      * @param args the command line arguments
