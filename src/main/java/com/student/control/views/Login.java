@@ -7,6 +7,7 @@ package com.student.control.views;
 import com.student.control.controllers.UserController;
 import com.student.control.models.User;
 import com.student.control.repositories.UserRepository;
+import com.student.control.services.EmailService;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,9 +17,11 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     private UserRepository userRepository;
+    private EmailService emailService;
 
-    public Login(UserRepository userRepository) {
+    public Login(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
         this.setLocationRelativeTo(null);
         initComponents();
     }
@@ -122,7 +125,7 @@ public class Login extends javax.swing.JFrame {
 
         if (userCon.Acceder(user)) {
             this.setVisible(false);
-            Main accede = new Main(userRepository);
+            Main accede = new Main(userRepository, emailService);
 
             accede.setVisible(true);
             JOptionPane.showMessageDialog(null, "Ingreso exitoso");

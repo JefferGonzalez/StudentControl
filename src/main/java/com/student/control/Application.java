@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 
 import com.student.control.models.User;
 import com.student.control.repositories.UserRepository;
+import com.student.control.services.EmailService;
+import com.student.control.views.Login;
 import com.student.control.views.Main;
 
 @SpringBootApplication
@@ -14,7 +16,10 @@ public class Application {
 
     @Autowired
     private UserRepository userRepository;
-    
+
+    @Autowired
+    private EmailService emailService;
+
     public static void main(String[] args) {
         new SpringApplicationBuilder(Application.class)
                 .headless(false).run(args);
@@ -33,7 +38,7 @@ public class Application {
 
             userRepository.save(user);
         }
-        new Main(userRepository).setVisible(true);
-//        new Login(userRepository).setVisible(true);
+//        new Main(userRepository, emailService).setVisible(true);
+        new Login(userRepository, emailService).setVisible(true);
     }
 }

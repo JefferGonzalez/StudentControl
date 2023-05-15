@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -14,25 +15,31 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.student.control.controllers.UserController;
+import com.student.control.dto.EmailDetails;
 import com.student.control.interfaces.TableActionEvent;
 import com.student.control.models.User;
 import com.student.control.repositories.UserRepository;
+import com.student.control.services.EmailService;
 import com.student.control.utils.ExcelUtil;
 import com.student.control.utils.TableActionCellEditor;
 import com.student.control.utils.TableActionCellRender;
+import java.util.Collections;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.TableModelEvent;
 
 public class Main extends javax.swing.JFrame {
 
     private UserRepository userRepository;
+    private EmailService emailService;
 
     /**
      * Creates new form Main
      *
      * @param userRepository
      */
-    public Main(UserRepository userRepository) {
+    public Main(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
         initComponents();
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -50,6 +57,7 @@ public class Main extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
         jTable1.getModel().addTableModelListener((e) -> tableChanged(e));
         loadTable();
+        loadComboStudents();
     }
 
     /**
@@ -85,6 +93,18 @@ public class Main extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        Notas = new javax.swing.JPanel();
+        LEFT1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        RIGHT1 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -150,7 +170,7 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,13 +202,13 @@ public class Main extends javax.swing.JFrame {
         Menu.setLayout(MenuLayout);
         MenuLayout.setHorizontalGroup(
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 639, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
             .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MenuLayout.setVerticalGroup(
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGap(0, 421, Short.MAX_VALUE)
             .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -312,15 +332,149 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        AddStudents.add(RIGHT, new org.netbeans.lib.awtextra.AbsoluteConstraints(269, 0, 360, 450));
+        AddStudents.add(RIGHT, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 360, 450));
 
         jTabbedPane1.addTab("AGREGAR ESTUDIANTES", AddStudents);
+
+        Notas.setBackground(new java.awt.Color(255, 255, 255));
+        Notas.setPreferredSize(new java.awt.Dimension(629, 450));
+        Notas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        LEFT1.setBackground(new java.awt.Color(0, 102, 255));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/regiterLogo.png"))); // NOI18N
+
+        javax.swing.GroupLayout LEFT1Layout = new javax.swing.GroupLayout(LEFT1);
+        LEFT1.setLayout(LEFT1Layout);
+        LEFT1Layout.setHorizontalGroup(
+            LEFT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LEFT1Layout.createSequentialGroup()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 17, Short.MAX_VALUE))
+        );
+        LEFT1Layout.setVerticalGroup(
+            LEFT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LEFT1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(242, Short.MAX_VALUE))
+        );
+
+        Notas.add(LEFT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 270, 450));
+
+        RIGHT1.setBackground(new java.awt.Color(255, 255, 255));
+        RIGHT1.setPreferredSize(new java.awt.Dimension(360, 517));
+
+        jButton3.setText("ENVIAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("ENVIAR A TODOS");
+
+        jLabel8.setText("o");
+
+        jLabel9.setText("Estudiante:");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "#", "NOTA", "PORCENTAJE", "CORTE"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(25);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout RIGHT1Layout = new javax.swing.GroupLayout(RIGHT1);
+        RIGHT1.setLayout(RIGHT1Layout);
+        RIGHT1Layout.setHorizontalGroup(
+            RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RIGHT1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(38, 38, 38))
+            .addGroup(RIGHT1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(RIGHT1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(jButton4)
+                .addGap(14, 14, 14))
+        );
+        RIGHT1Layout.setVerticalGroup(
+            RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RIGHT1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addGap(8, 8, 8))
+        );
+
+        Notas.add(RIGHT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 410, 420));
+
+        jTabbedPane1.addTab("NOTAS", Notas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 639, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jTabbedPane1))
         );
@@ -340,6 +494,21 @@ public class Main extends javax.swing.JFrame {
             loadTable();
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            EmailDetails details = new EmailDetails();
+            details.setRecipientAddress("jgonzalezce@uninpahu.edu.co");
+            details.setBody("PRUEBA DE CORREO ELECTRONICO");
+            details.setSubject("ENTREGA DE NOTAS");
+
+            String message = emailService.sendMail(details);
+
+            JOptionPane.showMessageDialog(rootPane, message);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -403,22 +572,34 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AddStudents;
     private javax.swing.JPanel LEFT;
+    private javax.swing.JPanel LEFT1;
     private javax.swing.JPanel Menu;
+    private javax.swing.JPanel Notas;
     private javax.swing.JPanel RIGHT;
+    private javax.swing.JPanel RIGHT1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -428,6 +609,9 @@ public class Main extends javax.swing.JFrame {
         List<User> users = userRepository.findAll();
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        DefaultTableModel notas = (DefaultTableModel) jTable2.getModel();
+
         model.setNumRows(0);
         int i = 1;
         for (User user : users) {
@@ -435,6 +619,14 @@ public class Main extends javax.swing.JFrame {
                 model.addRow(new Object[]{user.getId(), i++, user.getFirstName(), user.getLastName(), user.getEmail()});
             }
         }
+
+        i = 1;
+
+        notas.setNumRows(0);
+        for (int j = 0; j < 4; j++) {
+            notas.addRow(new Object[]{i++, 4.3, 30, 1});
+        }
+
     }
 
     private void tableChanged(TableModelEvent e) {
@@ -459,5 +651,22 @@ public class Main extends javax.swing.JFrame {
             }
 
         }
+    }
+
+    private void loadComboStudents() {
+
+        ArrayList<String> students = (ArrayList<String>) userRepository.findAll().stream()
+                .filter(s -> s.getPassword() == null)
+                .map(s -> s.getFirstName() + " " + s.getLastName())
+                .collect(Collectors.toList());
+
+        Collections.reverse(students);
+
+        students.add("Seleccione un estudiante: ");
+
+        Collections.reverse(students);
+
+        jComboBox1.setModel(new DefaultComboBoxModel<>(students.toArray(String[]::new)));
+
     }
 }

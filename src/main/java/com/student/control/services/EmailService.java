@@ -25,12 +25,72 @@ public class EmailService implements EmailModel {
     @Override
     public String sendMail(EmailDetails details) {
         try {
-
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-
+            MimeMessage mailMessage = javaMailSender.createMimeMessage();
             mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipientAddress());
-            mailMessage.setText(details.getBody());
+
+            mailMessage.setRecipients(MimeMessage.RecipientType.TO, details.getRecipientAddress());
+
+            String htmlContent = "<!DOCTYPE html>\n"
+                    + "<html lang=\"es\">\n"
+                    + "\n"
+                    + "<head>\n"
+                    + "  <style>\n"
+                    + "    .table {\n"
+                    + "      width: 100%;\n"
+                    + "      max-width: 100%;\n"
+                    + "      margin-bottom: 1rem;\n"
+                    + "      background-color: transparent;\n"
+                    + "      border-collapse: collapse;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    .table-dark {\n"
+                    + "      color: #fff;\n"
+                    + "      background-color: #343a40;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    .table-striped-columns tbody tr:nth-child(even) {\n"
+                    + "      background-color: rgba(0, 0, 0, .05);\n"
+                    + "    }\n"
+                    + "  </style>\n"
+                    + "</head>\n"
+                    + "\n"
+                    + "<body>\n"
+                    + "  <table class=\"table table-dark table-striped-columns\">\n"
+                    + "    <thead>\n"
+                    + "      <tr>\n"
+                    + "        <th scope=\"col\">#</th>\n"
+                    + "        <th scope=\"col\">NOTA</th>\n"
+                    + "        <th scope=\"col\">PORCENTAJE</th>\n"
+                    + "        <th scope=\"col\">CORTE</th>\n"
+                    + "      </tr>\n"
+                    + "    </thead>\n"
+                    + "    <tbody>\n"
+                    + "      <tr>\n"
+                    + "        <th scope=\"row\">2</th>\n"
+                    + "        <td>4.3</td>\n"
+                    + "        <td>30%</td>\n"
+                    + "        <td>1</td>\n"
+                    + "      </tr>\n"
+                    + "      <tr>\n"
+                    + "        <th scope=\"row\">3</th>\n"
+                    + "        <td>4.3</td>\n"
+                    + "        <td>30%</td>\n"
+                    + "        <td>1</td>\n"
+                    + "      </tr>\n"
+                    + "      <tr>\n"
+                    + "        <th scope=\"row\">4</th>\n"
+                    + "        <td>4.3</td>\n"
+                    + "        <td>30%</td>\n"
+                    + "        <td>1</td>\n"
+                    + "      </tr>\n"
+                    + "    </tbody>\n"
+                    + "  </table>\n"
+                    + "</body>\n"
+                    + "\n"
+                    + "</html>";
+
+            mailMessage.setContent(htmlContent, "text/html; charset=utf-8");
+
             mailMessage.setSubject(details.getSubject());
 
             javaMailSender.send(mailMessage);
