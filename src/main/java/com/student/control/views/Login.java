@@ -8,6 +8,7 @@ import com.student.control.controllers.UserController;
 import com.student.control.models.User;
 import com.student.control.repositories.UserRepository;
 import com.student.control.services.EmailService;
+import java.util.Optional;
 import javax.swing.JOptionPane;
 
 /**
@@ -118,17 +119,22 @@ public class Login extends javax.swing.JFrame {
 
     private void BtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIngresarActionPerformed
         UserController userCon = new UserController(userRepository);
-        User user = new User();
+        User u = new User();
 
-        user.setEmail(TxtUsuario.getText());
-        user.setPassword(TxtPassword.getText());
+        u.setEmail(TxtUsuario.getText());
+        u.setPassword(TxtPassword.getText());
 
-        if (userCon.Acceder(user)) {
-            this.setVisible(false);
-            Main accede = new Main(userRepository, emailService);
+        Optional<User> user = userCon.Acceder(u);
+        
+        if (user.isPresent()) {
+            String passwordBD = user.get().getPassword();
+            String userPassword = u.getPassword();
+            if (passwordBD.equals(userPassword)) {
+                this.setVisible(false);
+                Main accede = new Main(userRepository, emailService, user.get().getFirstName());
 
-            accede.setVisible(true);
-            JOptionPane.showMessageDialog(null, "Ingreso exitoso");
+                accede.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales erroneas");
         }

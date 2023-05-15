@@ -16,14 +16,7 @@ public class UserController {
         return userRepository.save(user);
     }
 
-    public boolean Acceder(User user) {
-        Optional<User> userEmail = userRepository.findByEmail(user.getEmail());
-        if (userEmail.isPresent()) {
-            String passwordBD = userEmail.get().getPassword();
-            String userPassword = user.getPassword();
-            return passwordBD.equals(userPassword);
-        } else {
-            return false;
-        } 
+    public Optional<User> Acceder(User user) {
+        return userRepository.findByEmail(user.getEmail());
     }
 }

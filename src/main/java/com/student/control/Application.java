@@ -38,7 +38,7 @@ public class Application {
 
             userRepository.save(user);
         }
-//        new Main(userRepository, emailService).setVisible(true);
-        new Login(userRepository, emailService).setVisible(true);
+        new Main(userRepository, emailService, "Pepito").setVisible(true);
+//        new Login(userRepository, emailService).setVisible(true);
     }
 }
