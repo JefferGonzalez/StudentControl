@@ -23,6 +23,8 @@ import com.student.control.services.EmailService;
 import com.student.control.utils.ExcelUtil;
 import com.student.control.utils.TableActionCellEditor;
 import com.student.control.utils.TableActionCellRender;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collections;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.TableModelEvent;
@@ -44,6 +46,20 @@ public class Main extends javax.swing.JFrame {
         this.emailService = emailService;
         initComponents();
         lblUsername.setText(username.toUpperCase());
+
+        // Agregar ActionListener al JComboBox
+        BoxCortes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Acciones a realizar cuando se selecciona un nuevo elemento
+                String selectedItem = (String) BoxCortes.getSelectedItem();
+                jText1.setText("");
+                jText2.setText("");
+                jText3.setText("");
+                jText4.setText("");
+            }
+        });
+
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
@@ -117,6 +133,7 @@ public class Main extends javax.swing.JFrame {
         jText4 = new javax.swing.JTextField();
         BtnGuardar = new javax.swing.JButton();
         Notas = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         LEFT1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         RIGHT1 = new javax.swing.JPanel();
@@ -515,7 +532,8 @@ public class Main extends javax.swing.JFrame {
 
         Notas.setBackground(new java.awt.Color(255, 255, 255));
         Notas.setPreferredSize(new java.awt.Dimension(629, 450));
-        Notas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LEFT1.setBackground(new java.awt.Color(0, 102, 255));
 
@@ -537,7 +555,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(242, Short.MAX_VALUE))
         );
 
-        Notas.add(LEFT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 270, 450));
+        jPanel5.add(LEFT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 270, 450));
 
         RIGHT1.setBackground(new java.awt.Color(255, 255, 255));
         RIGHT1.setPreferredSize(new java.awt.Dimension(360, 517));
@@ -620,7 +638,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(RIGHT1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jButton4)
@@ -643,7 +661,18 @@ public class Main extends javax.swing.JFrame {
                 .addGap(8, 8, 8))
         );
 
-        Notas.add(RIGHT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 410, 420));
+        jPanel5.add(RIGHT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 470, 420));
+
+        javax.swing.GroupLayout NotasLayout = new javax.swing.GroupLayout(Notas);
+        Notas.setLayout(NotasLayout);
+        NotasLayout.setHorizontalGroup(
+            NotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+        );
+        NotasLayout.setVerticalGroup(
+            NotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         jTabbedPane1.addTab("GESTION DE NOTAS", Notas);
 
@@ -706,6 +735,7 @@ public class Main extends javax.swing.JFrame {
             return;
         }
 
+        ArrayList<String> porcentajesValidos = new ArrayList<>();
         int sumaPorcentajes = 0;
 
         while (sumaPorcentajes != 100) {
@@ -727,15 +757,17 @@ public class Main extends javax.swing.JFrame {
                     sumaPorcentajes += porcentaje;
                     restante -= porcentaje;
 
-                    System.out.println("El porcentaje " + sumaPorcentajes);
+                    String porcentajeString = "CORTE " + i + " - " + porcentaje + "%";
+                    porcentajesValidos.add(porcentajeString);
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Por favor ingresa un porcentaje válido.\nRestante: " + restante + "%", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
                     i--;
                 }
 
-                if (sumaPorcentajes == 100 &&  i < cortes) {
+                if (sumaPorcentajes == 100 && i < cortes) {
                     JOptionPane.showMessageDialog(null, "No puedes tener más cortes después de un porcentaje del 100%. Por favor, ingresa un nuevo número de cortes.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                    porcentajesValidos.clear();
                     sumaPorcentajes = 0;
                     break;
                 }
@@ -743,20 +775,44 @@ public class Main extends javax.swing.JFrame {
 
             if (sumaPorcentajes != 100) {
                 JOptionPane.showMessageDialog(null, "La suma de los porcentajes no es igual a 100. Por favor, vuelva a ingresar los valores.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                porcentajesValidos.clear();
             }
 
         }
+
+        Collections.reverse(porcentajesValidos);
+
+        porcentajesValidos.add("POR FAVOR SELECCIONA UN CORTE");
+
+        Collections.reverse(porcentajesValidos);
+
+        BoxCortes.setModel(new DefaultComboBoxModel<>(porcentajesValidos.toArray(String[]::new)));
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
 
-        int valor1 = Integer.parseInt(jText1.getText());
-        int valor2 = Integer.parseInt(jText2.getText());
-        int valor3 = Integer.parseInt(jText3.getText());
-        int valor4 = Integer.parseInt(jText4.getText());
+        String valor1 = jText1.getText();
+        String valor2 = jText2.getText();
+        String valor3 = jText3.getText();
+        String valor4 = jText4.getText();
 
-        if (valor1 + valor2 + valor3 + valor4 == 100) {
+        int quiz = 0;
+        int talleres = 0;
+        int tareas = 0;
+        int actPractica = 0;
+
+        try {
+            quiz = Integer.valueOf(valor1);
+            talleres = Integer.valueOf(valor2);
+            tareas = Integer.valueOf(valor3);
+            actPractica = Integer.valueOf(valor4);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "POR FAVOR INGRESA VALORES CORRECTOS", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (quiz + talleres + tareas + actPractica == 100) {
             jText1.setText("");
             jText2.setText("");
             jText3.setText("");
@@ -865,6 +921,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
