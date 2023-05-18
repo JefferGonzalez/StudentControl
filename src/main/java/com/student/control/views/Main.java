@@ -26,6 +26,7 @@ import com.student.control.utils.TableActionCellRender;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
+import java.util.function.BiConsumer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.TableModelEvent;
 
@@ -33,7 +34,13 @@ public class Main extends javax.swing.JFrame {
 
     private UserRepository userRepository;
     private EmailService emailService;
+    private HashMap<String, ArrayList<HashMap<String, Integer>>> lstCortes = new HashMap<>();
 
+    // clave y valor
+    // 40% => <QUIZ,20>
+    //     => <TAREAS,30>
+    // 50% => <QUIZ,20>
+    //     => <TAREAS,30>
     /**
      * Creates new form Main
      *
@@ -792,6 +799,13 @@ public class Main extends javax.swing.JFrame {
 
     private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
 
+        String comboValue = (String) BoxCortes.getSelectedItem();
+
+        if (comboValue.equalsIgnoreCase("POR FAVOR SELECCIONA UN CORTE")) {
+            JOptionPane.showMessageDialog(null, "POR FAVOR SELECCIONA UN CORTE", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         String valor1 = jText1.getText();
         String valor2 = jText2.getText();
         String valor3 = jText3.getText();
@@ -808,11 +822,27 @@ public class Main extends javax.swing.JFrame {
             tareas = Integer.valueOf(valor3);
             actPractica = Integer.valueOf(valor4);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "POR FAVOR INGRESA VALORES CORRECTOS", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "POR FAVOR INGRESA VALORES CORRECTOS, PARA CADA ITEM A CALIFICAR.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         if (quiz + talleres + tareas + actPractica == 100) {
+            ArrayList<HashMap<String, Integer>> listItems = new ArrayList<>(); // valor del porcentaje de cada corte
+            
+            HashMap<String, Integer> items = new HashMap<>(); 
+
+            items.put("QUIZ", quiz);
+            items.put("TALLERES", talleres);
+            items.put("TAREAS", tareas);
+            items.put("ACTPRACTICA", actPractica);
+            
+            
+            listItems.add(items);
+            
+            String[] arrayValues = comboValue.split("-");
+
+            lstCortes.put(arrayValues[1], listItems);
+
             jText1.setText("");
             jText2.setText("");
             jText3.setText("");
@@ -820,6 +850,8 @@ public class Main extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "La suma de los valores no es igual a 100. Verifique los valores ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+        for 
     }//GEN-LAST:event_BtnGuardarActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
