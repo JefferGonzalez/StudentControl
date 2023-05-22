@@ -4,13 +4,13 @@
  */
 package com.student.control.repositories;
 
-import com.student.control.models.Corte;
+import com.student.control.models.Calificacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author SEBASTIAN L
  */
-public interface PeriodoRepository extends JpaRepository<Corte, Integer >{
+public interface CalificacionRepository extends JpaRepository<Calificacion, Integer >{
     
 }

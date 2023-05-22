@@ -4,13 +4,18 @@
  */
 package com.student.control.repositories;
 
-import com.student.control.models.Corte;
+import com.student.control.models.Periodo;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author SEBASTIAN L
  */
-public interface PeriodoRepository extends JpaRepository<Corte, Integer >{
-    
+public interface PeriodoRepository extends JpaRepository<Periodo, Integer> {
+
+  public Optional<Periodo> findByNombre(String nombre);
+
 }
