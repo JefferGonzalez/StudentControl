@@ -90,9 +90,9 @@ public class Application {
 
             userRepository.save(user);
         }
-        // new Main(userRepository, periodoRepository, corteRepository, calificacionRepository, notasRepository, emailService, "Pepito")
-        //         .setVisible(true);
-        new Login(userRepository, periodoRepository, corteRepository,
-                calificacionRepository, notasRepository, emailService).setVisible(true);
+        new Main(userRepository, periodoRepository, corteRepository, calificacionRepository, notasRepository, emailService, "Pepito")
+                .setVisible(true);
+        // new Login(userRepository, periodoRepository, corteRepository,
+        //         calificacionRepository, notasRepository, emailService).setVisible(true);
     }
 }

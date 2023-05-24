@@ -1,5 +1,6 @@
 package com.student.control.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +17,16 @@ public class Notas {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(name = "quiz", nullable = true)
   private Integer quiz;
 
+  @Column(name = "talleres", nullable = true)
   private Integer talleres;
 
+  @Column(name = "tareas", nullable = true)
   private Integer tareas;
 
+  @Column(name = "act_practica", nullable = true)
   private Integer actPractica;
 
   @ManyToOne

@@ -2,8 +2,10 @@ package com.student.control.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,7 @@ public class Periodo {
     @OneToMany(mappedBy = "periodo", cascade = CascadeType.ALL)
     private Collection<Corte> cortes;
 
-    @OneToMany(mappedBy = "periodo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "periodo", cascade = { CascadeType.DETACH, CascadeType.MERGE })
     private Collection<Notas> notas;
 
     public Periodo() {
