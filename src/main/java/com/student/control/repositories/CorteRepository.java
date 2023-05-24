@@ -5,6 +5,7 @@
 package com.student.control.repositories;
 
 import com.student.control.models.Corte;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -28,5 +29,9 @@ public interface CorteRepository extends JpaRepository<Corte, Integer >{
   @Modifying
   @Query("DELETE FROM Corte c WHERE c.periodo.id = :id")
   void deleteByPeriodoId(@Param("id") Integer id);
-
+  
+  @Transactional
+  @Query("SELECT c FROM Corte c WHERE c.periodo.id = :id")
+  List<Corte> selectByPeriodoId(@Param("id") Integer id);
+  
 }

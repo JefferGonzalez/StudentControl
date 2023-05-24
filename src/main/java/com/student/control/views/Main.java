@@ -28,6 +28,7 @@ import org.apache.poi.sl.draw.geom.GuideIf.Op;
 import com.student.control.controllers.UserController;
 import com.student.control.dto.EmailDetails;
 import com.student.control.interfaces.TableActionEvent;
+import com.student.control.models.Calificacion;
 import com.student.control.models.Corte;
 import com.student.control.models.Periodo;
 import com.student.control.models.User;
@@ -48,6 +49,7 @@ public class Main extends javax.swing.JFrame {
     private CalificacionRepository calificacionRepository;
     private EmailService emailService;
     private HashMap<String, ArrayList<HashMap<String, Integer>>> lstCortes = new HashMap<>();
+    Periodo peridoActual = null;
 
     /**
      * Creates new form Main
@@ -103,9 +105,27 @@ public class Main extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
         jTable1.getModel().addTableModelListener((e) -> tableChanged(e));
+
+        //table students
+        TableActionEvent eventStudents = new TableActionEvent() {
+            @Override
+            public void onDelete(int row) {
+                if (jTable1.isEditing()) {
+                    jTable1.getCellEditor().stopCellEditing();
+                }
+                int id = (int) jTable1.getValueAt(row, 0);
+
+            }
+        };
+        jTable2.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
+        jTable2.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
+        jTable2.getModel().addTableModelListener((e) -> tableStudentsChanged(e));
+
         loadTable();
         loadComboPeriodos();
         loadComboStudents();
+
+        // variables
     }
 
     /**
@@ -468,10 +488,14 @@ public class Main extends javax.swing.JFrame {
         jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/regiterLogo.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("PERIODOS ACADEMICOS");
 
         jComboBoxPeriodos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONE UN PERIODO:" }));
+        jComboBoxPeriodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPeriodosActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("RESETEAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -521,7 +545,6 @@ public class Main extends javax.swing.JFrame {
         });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("INGRESE LA CANTIDAD DE CORTES:");
 
         jButton5.setText("GENERAR");
@@ -532,21 +555,22 @@ public class Main extends javax.swing.JFrame {
         });
 
         BoxCortes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "POR FAVOR INGRESE LA CANTIDAD DE CORTES" }));
+        BoxCortes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BoxCortesActionPerformed(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("QUIZ: (%)");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("TALLERES: (%)");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setText("TAREAS: (%)");
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("ACT. PRACTICA: (%)");
 
         BtnGuardar.setText("GUARDAR ");
@@ -654,6 +678,11 @@ public class Main extends javax.swing.JFrame {
         lblPeriodo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jComboBoxPeriodosNotas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONE UN PERIODO:" }));
+        jComboBoxPeriodosNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPeriodosNotasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout LEFT1Layout = new javax.swing.GroupLayout(LEFT1);
         LEFT1.setLayout(LEFT1Layout);
@@ -667,9 +696,11 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LEFT1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(LEFT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxPeriodosNotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LEFT1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jComboBoxPeriodosNotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         LEFT1Layout.setVerticalGroup(
             LEFT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -705,19 +736,17 @@ public class Main extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "#", "QUIZ", "TALLERES", "TAREAS", "ACT. PRACTICA"
+                "#", "QUIZ", "TALLERES", "TAREAS", "ACT. PRACTICA", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -732,6 +761,9 @@ public class Main extends javax.swing.JFrame {
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setResizable(false);
             jTable2.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jTable2.getColumnModel().getColumn(5).setMinWidth(24);
+            jTable2.getColumnModel().getColumn(5).setPreferredWidth(24);
+            jTable2.getColumnModel().getColumn(5).setMaxWidth(24);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -838,11 +870,66 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        String comboStudents = jComboBox1.getSelectedItem().toString();
+
+        if ("SELECCIONE UN ESTUDIANTE:".equals(comboStudents)) {
+            JOptionPane.showMessageDialog(null, "POR FAVOR SELECCIONE UN ESTUDIANTE", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-        model.addRow(new Object[] { model.getRowCount() + 1, "", "", "", ""});
+        model.addRow(new Object[]{model.getRowCount() + 1, "", "", "", ""});
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBoxPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodosActionPerformed
+
+        String periodoSelect = jComboBoxPeriodos.getSelectedItem().toString();
+        actualizarCortes(periodoSelect);
+    }//GEN-LAST:event_jComboBoxPeriodosActionPerformed
+
+    private void actualizarCortes(String seleccion) {
+        // Limpiar los elementos actuales del JComboBox de entidades
+        if (seleccion != null) {
+            String[] parts = seleccion.split("-");
+            String name = parts[0];
+            Optional<Periodo> p = periodoRepository.findByNombre(name.trim());
+            List<Corte> cortes = corteRepository.selectByPeriodoId(p.get().getId());
+
+            if (!cortes.isEmpty()) {
+                BoxCortes.removeAllItems();
+
+                BoxCortes.addItem("POR FAVOR SELECCIONA UN CORTE");
+
+                int i = 1;
+                for (Corte entidad : cortes) {
+                    BoxCortes.addItem("CORTE " + i + " - " + entidad.getPorcentaje() + "%");
+                    i++;
+                }
+            }
+
+        }
+    }
+
+
+    private void BoxCortesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxCortesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BoxCortesActionPerformed
+
+    private void jComboBoxPeriodosNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodosNotasActionPerformed
+        String periodo = jComboBoxPeriodos.getSelectedItem().toString();
+        if (!"SELECCIONE UN PERIODO:".equals(periodo)) {
+            String[] parts = periodo.split("-");
+            String name = parts[0];
+
+            Optional<Periodo> p = periodoRepository.findByNombre(name);
+            peridoActual = p.get();
+        }
+
+
+    }//GEN-LAST:event_jComboBoxPeriodosNotasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
@@ -950,7 +1037,7 @@ public class Main extends javax.swing.JFrame {
                     while (res == null) {
                         res = JOptionPane.showInputDialog(null,
                                 "Ingrese el porcentaje para el corte número " + i
-                                        + "\nRestante: " + restante + "%",
+                                + "\nRestante: " + restante + "%",
                                 "Porcentaje", JOptionPane.QUESTION_MESSAGE);
                     }
 
@@ -970,7 +1057,7 @@ public class Main extends javax.swing.JFrame {
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,
                                 "Por favor ingresa un porcentaje válido.\nRestante: "
-                                        + restante + "%",
+                                + restante + "%",
                                 "Advertencia",
                                 JOptionPane.INFORMATION_MESSAGE);
                         i--;
@@ -1206,25 +1293,15 @@ public class Main extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        DefaultTableModel notas = (DefaultTableModel) jTable2.getModel();
-
         model.setNumRows(0);
         int i = 1;
         for (User user : users) {
             if (user.getPassword() == null) {
                 model.addRow(
-                        new Object[] { user.getId(), i++, user.getFirstName(),
-                                user.getLastName(), user.getEmail() });
+                        new Object[]{user.getId(), i++, user.getFirstName(),
+                            user.getLastName(), user.getEmail()});
             }
         }
-
-        i = 1;
-
-        notas.setNumRows(0);
-        for (int j = 0; j < 4; j++) {
-            notas.addRow(new Object[] { i++, 4.3, 30, 1 });
-        }
-
     }
 
     private void tableChanged(TableModelEvent e) {
@@ -1252,6 +1329,73 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    private void tableStudentsChanged(TableModelEvent e) {
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+        TableModel model = (TableModel) e.getSource();
+        String columnName = model.getColumnName(column);
+        if (!columnName.isEmpty()) {
+            String studente = jComboBox1.getSelectedItem().toString();
+
+            String[] part = studente.split("-");
+
+            int idStudent = Integer.parseInt(part[0]);
+            Optional<User> u = userRepository.findById(idStudent);
+            User user = u.get();
+            int id = 0;
+            if (jTable2.getValueAt(row, 0) != null) {
+                if (String.valueOf(jTable2.getValueAt(row, 0)).isBlank()) {
+                    return;
+                }
+                id = (int) jTable2.getValueAt(row, 0);
+            }
+            if (jTable2.getValueAt(row, 1) != null) {
+                if (String.valueOf(jTable2.getValueAt(row, 1)).isBlank()) {
+                    return;
+                }
+                int quiz = (int) jTable2.getValueAt(row, 1);
+//                calificacionRepository.save(new Calificacion(id, "QUIZ", PROPERTIES, corte, user));
+            }
+            if (jTable2.getValueAt(row, 2) != null) {
+                if (String.valueOf(jTable2.getValueAt(row, 2)).isBlank()) {
+                    return;
+                }
+
+                int tallers = (int) jTable2.getValueAt(row, 2);
+            }
+            if (jTable2.getValueAt(row, 3) != null) {
+                if (String.valueOf(jTable2.getValueAt(row, 3)).isBlank()) {
+                    return;
+                }
+
+                int tareas = (int) jTable2.getValueAt(row, 3);
+            }
+
+            if (jTable2.getValueAt(row, 4) != null) {
+                if (String.valueOf(jTable2.getValueAt(row, 4)).isBlank()) {
+                    return;
+                }
+
+                int actPrac = (int) jTable2.getValueAt(row, 4);
+            }
+
+//            String firstName = (String) jTable1.getValueAt(row, 2);
+//            String lastName = (String) jTable1.getValueAt(row, 3);
+//            String email = (String) jTable1.getValueAt(row, 4);
+//
+//            User u = userRepository.findById(id).get();
+//            if (!u.getFirstName().equals(firstName) || !u.getLastName().equals(lastName)
+//                    || !u.getEmail().equals(email)) {
+//
+//                User user = new User(id, firstName, lastName, email, null);
+//
+//                userRepository.save(user);
+//                loadTable();
+//                JOptionPane.showMessageDialog(null, "Estudiante Actualizado con exito");
+//            }
+        }
+    }
+
     private void loadComboStudents() {
 
         ArrayList<String> students = (ArrayList<String>) userRepository.findAll().stream()
@@ -1261,7 +1405,7 @@ public class Main extends javax.swing.JFrame {
 
         Collections.reverse(students);
 
-        students.add("Seleccione un estudiante: ");
+        students.add("SELECCIONE UN ESTUDIANTE:");
 
         Collections.reverse(students);
 

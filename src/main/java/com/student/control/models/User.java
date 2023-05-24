@@ -1,10 +1,13 @@
 package com.student.control.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +30,9 @@ public class User {
     @Column(name = "password", nullable = true, length = 255)
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private Collection<Calificacion> calificaciones;
+    
     public User() {
     }
 

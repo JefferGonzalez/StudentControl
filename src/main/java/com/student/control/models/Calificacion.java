@@ -16,22 +16,30 @@ public class Calificacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nombre; // QUIZ, TALLERES
+    private String nombre;
 
     private Integer porcentaje;
+
+    private Integer valor;
 
     @ManyToOne
     @JoinColumn(name = "corte_id", referencedColumnName = "id", nullable = false)
     private Corte corte;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
+
     public Calificacion() {
     }
 
-    public Calificacion(Integer id, String nombre, Integer porcentaje, Corte corte) {
+    public Calificacion(Integer id, String nombre, Integer porcentaje, Integer valor, Corte corte, User user) {
         this.id = id;
         this.nombre = nombre;
         this.porcentaje = porcentaje;
+        this.valor = valor;
         this.corte = corte;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -58,12 +66,36 @@ public class Calificacion {
         this.porcentaje = porcentaje;
     }
 
+    public Integer getValor() {
+        return valor;
+    }
+
+    public void setValor(Integer valor) {
+        this.valor = valor;
+    }
+
     public Corte getCalificacion() {
         return corte;
     }
 
     public void setCalificacion(Corte corte) {
         this.corte = corte;
+    }
+
+    public Corte getCorte() {
+        return corte;
+    }
+
+    public void setCorte(Corte corte) {
+        this.corte = corte;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }
