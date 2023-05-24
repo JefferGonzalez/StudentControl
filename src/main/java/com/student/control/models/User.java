@@ -1,7 +1,8 @@
 package com.student.control.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,18 +31,19 @@ public class User {
     @Column(name = "password", nullable = true, length = 255)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private Collection<Calificacion> calificaciones;
-    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Notas> notas;
+
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password) {
+    public User(Integer id, String firstName, String lastName, String email, String password, Collection<Notas> notas) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.notas = notas;
     }
 
     public Integer getId() {
@@ -82,6 +84,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<Notas> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(Collection<Notas> notas) {
+        this.notas = notas;
     }
 
 }

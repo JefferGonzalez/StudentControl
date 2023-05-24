@@ -20,6 +20,8 @@ public class Corte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String nombre;
+
     private Integer porcentaje;
 
     @OneToMany(mappedBy = "corte", cascade = CascadeType.MERGE, orphanRemoval = true)
@@ -32,8 +34,10 @@ public class Corte {
     public Corte() {
     }
 
-    public Corte(Integer id, Integer porcentaje, ArrayList<Calificacion> calificaciones, Periodo periodo) {
+    public Corte(Integer id, String nombre, Integer porcentaje, ArrayList<Calificacion> calificaciones,
+            Periodo periodo) {
         this.id = id;
+        this.nombre = nombre;
         this.porcentaje = porcentaje;
         this.calificaciones = calificaciones;
         this.periodo = periodo;
@@ -45,6 +49,15 @@ public class Corte {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+
+        this.nombre = nombre;
     }
 
     public Integer getPorcentaje() {
@@ -70,6 +83,5 @@ public class Corte {
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
     }
-    
 
 }

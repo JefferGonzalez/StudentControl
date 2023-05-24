@@ -23,13 +23,17 @@ public class Periodo {
     @OneToMany(mappedBy = "periodo", cascade = CascadeType.ALL)
     private Collection<Corte> cortes;
 
+    @OneToMany(mappedBy = "periodo", cascade = CascadeType.ALL)
+    private Collection<Notas> notas;
+
     public Periodo() {
     }
 
-    public Periodo(Integer id, String nombre, ArrayList<Corte> cortes) {
+    public Periodo(Integer id, String nombre, ArrayList<Corte> cortes, ArrayList<Notas> notas) {
         this.id = id;
         this.nombre = nombre;
         this.cortes = cortes;
+        this.notas = notas;
     }
 
     public Integer getId() {
@@ -54,6 +58,14 @@ public class Periodo {
 
     public void setCortes(Collection<Corte> cortes) {
         this.cortes = cortes;
+    }
+
+    public Collection<Notas> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(Collection<Notas> notas) {
+        this.notas = notas;
     }
 
 }

@@ -12,6 +12,7 @@ import com.student.control.controllers.UserController;
 import com.student.control.models.User;
 import com.student.control.repositories.CalificacionRepository;
 import com.student.control.repositories.CorteRepository;
+import com.student.control.repositories.NotasRepository;
 import com.student.control.repositories.PeriodoRepository;
 import com.student.control.repositories.UserRepository;
 import com.student.control.services.EmailService;
@@ -26,14 +27,16 @@ public class Login extends javax.swing.JFrame {
     private PeriodoRepository periodoRepository;
     private CorteRepository corteRepository;
     private CalificacionRepository calificacionRepository;
+    private NotasRepository notasRepository;
     private EmailService emailService;
 
     public Login(UserRepository userRepository, PeriodoRepository periodoRepository, CorteRepository corteRepository,
-            CalificacionRepository calificacionRepository, EmailService emailService) {
+            CalificacionRepository calificacionRepository, NotasRepository notasRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.periodoRepository = periodoRepository;
         this.corteRepository = corteRepository;
         this.calificacionRepository = calificacionRepository;
+        this.notasRepository = notasRepository;
         this.emailService = emailService;
         this.setLocationRelativeTo(null);
         initComponents();
@@ -144,7 +147,7 @@ public class Login extends javax.swing.JFrame {
             String userPassword = u.getPassword();
             if (passwordBD.equals(userPassword)) {
                 this.setVisible(false);
-                Main accede = new Main(userRepository, periodoRepository, corteRepository, calificacionRepository, emailService, user.get().getFirstName());
+                Main accede = new Main(userRepository, periodoRepository, corteRepository, calificacionRepository, notasRepository, emailService, user.get().getFirstName());
 
                 accede.setVisible(true);
             }
