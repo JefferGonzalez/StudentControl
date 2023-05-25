@@ -25,7 +25,7 @@ public class Periodo {
     @OneToMany(mappedBy = "periodo", cascade = CascadeType.ALL)
     private Collection<Corte> cortes;
 
-    @OneToMany(mappedBy = "periodo", cascade = { CascadeType.DETACH, CascadeType.MERGE })
+    @OneToMany(mappedBy = "periodo", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Collection<Notas> notas;
 
     public Periodo() {

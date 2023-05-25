@@ -32,7 +32,7 @@ public class User {
     @Column(name = "password", nullable = true, length = 255)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Collection<Notas> notas;
 
     public User() {

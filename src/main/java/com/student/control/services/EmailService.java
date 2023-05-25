@@ -89,7 +89,7 @@ public class EmailService implements EmailModel {
                     + "\n"
                     + "</html>";
 
-            mailMessage.setContent(htmlContent, "text/html; charset=utf-8");
+            mailMessage.setContent(details.getBody(), "text/html; charset=utf-8");
 
             mailMessage.setSubject(details.getSubject());
 

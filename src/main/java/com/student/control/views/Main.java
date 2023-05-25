@@ -117,13 +117,13 @@ public class Main extends javax.swing.JFrame {
                 }
                 int id = (int) jTable2.getValueAt(row, 0);
 
-                notasRepository.deleteById(id);
+                notasRepository.deleteByNotasId(id);
                 loadTableStudents();
                 JOptionPane.showMessageDialog(null, "Nota eliminada correctamente");
             }
         };
         jTable2.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
-        jTable2.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
+        jTable2.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(eventStudents));
         jTable2.getModel().addTableModelListener((e) -> tableStudentsChanged(e));
 
         loadTable();
@@ -209,15 +209,12 @@ public class Main extends javax.swing.JFrame {
         jComboBoxPeriodosNotas = new javax.swing.JComboBox<>();
         RIGHT1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
-        lblDefinitiva = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -728,16 +725,12 @@ public class Main extends javax.swing.JFrame {
         RIGHT1.setBackground(new java.awt.Color(255, 255, 255));
         RIGHT1.setPreferredSize(new java.awt.Dimension(360, 517));
 
-        jButton3.setText("ENVIAR");
+        jButton3.setText("ENVIAR NOTAS");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        jButton4.setText("ENVIAR A TODOS");
-
-        jLabel8.setText("o");
 
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -808,37 +801,26 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        lblDefinitiva.setBackground(new java.awt.Color(0, 0, 0));
-        lblDefinitiva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblDefinitiva.setText("NOTA: 0");
-
         javax.swing.GroupLayout RIGHT1Layout = new javax.swing.GroupLayout(RIGHT1);
         RIGHT1.setLayout(RIGHT1Layout);
         RIGHT1Layout.setHorizontalGroup(
             RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RIGHT1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(27, 27, 27)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addGap(118, 118, 118))
             .addGroup(RIGHT1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(RIGHT1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDefinitiva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(RIGHT1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(RIGHT1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(183, 183, 183)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RIGHT1Layout.setVerticalGroup(
             RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -847,16 +829,12 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jButton2)
-                    .addComponent(lblDefinitiva, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(RIGHT1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         jPanel5.add(RIGHT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 500, 420));
@@ -898,7 +876,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         loadTableStudents();
-       
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void loadTableStudents() {
@@ -906,10 +884,9 @@ public class Main extends javax.swing.JFrame {
         String value = jComboBox1.getSelectedItem().toString();
         String periodo = jComboBoxPeriodosNotas.getSelectedItem().toString();
 
-        if("SELECCIONE UN ESTUDIANTE:".equals(value) || "SELECCIONE UN PERIODO:".equals(periodo)){
-                return;
+        if ("SELECCIONE UN ESTUDIANTE:".equals(value) || "SELECCIONE UN PERIODO:".equals(periodo)) {
+            return;
         }
-
 
         String[] part = value.split("-");
 
@@ -925,11 +902,11 @@ public class Main extends javax.swing.JFrame {
 
         int i = 1;
         for (Notas nota : notas) {
-            model.addRow(new Object[] { nota.getId(), i++, nota.getQuiz(), nota.getTalleres(), nota.getTareas(), nota.getActPractica() });
+            model.addRow(new Object[]{nota.getId(), i++, nota.getQuiz(), nota.getTalleres(), nota.getTareas(), nota.getActPractica()});
         }
-}
+    }
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
 
         String comboPeriodo = jComboBoxPeriodosNotas.getSelectedItem().toString();
         String comboStudents = jComboBox1.getSelectedItem().toString();
@@ -948,7 +925,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
 
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 
-        model.addRow(new Object[]{null,model.getRowCount() + 1, "", "", "", ""});
+        model.addRow(new Object[]{null, model.getRowCount() + 1, "", "", "", ""});
 
     }// GEN-LAST:event_jButton2ActionPerformed
 
@@ -1110,12 +1087,77 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
             details.setBody("PRUEBA DE CORREO ELECTRONICO");
             details.setSubject("ENTREGA DE NOTAS");
 
+            String htmlContent = "<!DOCTYPE html>\n"
+                    + "<html lang=\"es\">\n"
+                    + "\n"
+                    + "<head>\n"
+                    + "  <style>\n"
+                    + "    .table {\n"
+                    + "      width: 100%;\n"
+                    + "      max-width: 100%;\n"
+                    + "      margin-bottom: 1rem;\n"
+                    + "      background-color: transparent;\n"
+                    + "      border-collapse: collapse;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    .table-dark {\n"
+                    + "      color: #fff;\n"
+                    + "      background-color: #343a40;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    .table-striped-columns tbody tr:nth-child(even) {\n"
+                    + "      background-color: rgba(0, 0, 0, .05);\n"
+                    + "    }\n"
+                    + "  </style>\n"
+                    + "</head>\n"
+                    + "\n"
+                    + "<body>\n"
+                    + "  <table class=\"table table-dark table-striped-columns\">\n"
+                    + "    <thead>\n"
+                    + "      <tr>\n"
+                    + "        <th scope=\"col\">#</th>\n"
+                    + "        <th scope=\"col\">QUIZ</th>\n"
+                    + "        <th scope=\"col\">TALLERES</th>\n"
+                    + "        <th scope=\"col\">TAREAS</th>\n"
+                    + "        <th scope=\"col\">ACTIVIDAD PRACTICA</th>\n"
+                    + "      </tr>\n"
+                    + "    </thead>\n"
+                    + "    <tbody>\n";
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            for (int i = 0; model.getRowCount() > i; i++) {
+                int id = (int) model.getValueAt(i, 1);
+                int quiz = (int) model.getValueAt(i, 2);
+                int talleres = (int) model.getValueAt(i, 3);
+                int tareas = (int) model.getValueAt(i, 4);
+                int actPractica = (int) model.getValueAt(i, 5);
+
+                htmlContent += "<tr>\n"
+                        + "        <th scope=\"row\">" + id + "</th>\n"
+                        + "        <td style=\"text-align: center\">" + quiz + "</td>\n"
+                        + "        <td style=\"text-align: center\">" + talleres + "</td>\n"
+                        + "        <td style=\"text-align: center\">" + tareas + "</td>\n"
+                        + "        <td style=\"text-align: center\">" + actPractica + "</td>\n"
+                        + "      </tr>\n";
+
+            }
+
+            htmlContent += "    </tbody>\n"
+                    + "  </table>\n"
+                    + "</body>\n"
+                    + "\n"
+                    + "</html>";
+
+            details.setBody(htmlContent);
+
             String message = emailService.sendMail(details);
 
             JOptionPane.showMessageDialog(rootPane, message);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
     }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton5ActionPerformed
@@ -1395,7 +1437,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -1419,7 +1460,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
@@ -1435,7 +1475,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JLabel lblDefinitiva;
     private javax.swing.JLabel lblPeriodo;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JTextField txtActPrac;
@@ -1606,5 +1645,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIR
         return false;
     }
 
-    private void calculateNota(){}
+    private void calculateNota() {
+    }
 }
