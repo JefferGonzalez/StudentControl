@@ -35,6 +35,8 @@ public class ExcelUtil {
                 i++;
             }
 
+            workbook.close();
+
             return data;
 
         } catch (IOException e) {

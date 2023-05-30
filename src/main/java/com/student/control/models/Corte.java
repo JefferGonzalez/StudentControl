@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,16 +32,20 @@ public class Corte {
     @JoinColumn(name = "periodo_id", referencedColumnName = "id", nullable = false)
     private Periodo periodo;
 
+    @OneToMany(mappedBy = "corte", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Collection<Notas> notas;
+
     public Corte() {
     }
 
     public Corte(Integer id, String nombre, Integer porcentaje, ArrayList<Calificacion> calificaciones,
-            Periodo periodo) {
+            Periodo periodo, ArrayList<Notas> notas) {
         this.id = id;
         this.nombre = nombre;
         this.porcentaje = porcentaje;
         this.calificaciones = calificaciones;
         this.periodo = periodo;
+        this.notas = notas;
     }
 
     public Integer getId() {
@@ -82,6 +87,14 @@ public class Corte {
 
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
+    }
+
+    public Collection<Notas> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(Collection<Notas> notas) {
+        this.notas = notas;
     }
 
 }

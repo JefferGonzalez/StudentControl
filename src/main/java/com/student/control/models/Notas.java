@@ -34,21 +34,21 @@ public class Notas {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "periodo_id", referencedColumnName = "id", nullable = false)
-  private Periodo periodo;
+  @JoinColumn(name = "corte_id", referencedColumnName = "id", nullable = false)
+  private Corte corte;
 
   public Notas() {
   }
 
   public Notas(Integer id, Integer quiz, Integer talleres, Integer tareas, Integer actPractica, User user,
-      Periodo periodo) {
+      Corte corte) {
     this.id = id;
     this.quiz = quiz;
     this.talleres = talleres;
     this.tareas = tareas;
     this.actPractica = actPractica;
     this.user = user;
-    this.periodo = periodo;
+    this.corte = corte;
   }
 
   public Integer getId() {
@@ -99,12 +99,12 @@ public class Notas {
     this.user = user;
   }
 
-  public Periodo getPeriodo() {
-    return periodo;
+  public Corte getCorte() {
+    return corte;
   }
 
-  public void setPeriodo(Periodo periodo) {
-    this.periodo = periodo;
+  public void setCorte(Corte corte) {
+    this.corte = corte;
   }
 
 }
